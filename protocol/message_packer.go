@@ -7,8 +7,8 @@
 package protocol
 
 import (
-	"wowo.com/game-server-cli/cipher"
-	protos "wowo.com/game-server-cli/protos"
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/cipher"
+	protos "git.wemomo.com/cosmos_server/zombieparty-gamecli/protos"
 )
 
 type MessagePacker interface {

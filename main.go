@@ -10,10 +10,10 @@ import (
 	"flag"
 	"time"
 
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/cipher"
+	cli "git.wemomo.com/cosmos_server/zombieparty-gamecli/cli"
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/protocol"
 	logging "github.com/chosen0ne/gologging"
-	"wowo.com/game-server-cli/cipher"
-	cli "wowo.com/game-server-cli/cli"
-	"wowo.com/game-server-cli/protocol"
 )
 
 func main() {

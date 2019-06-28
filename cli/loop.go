@@ -13,10 +13,10 @@ import (
 	"strconv"
 	"time"
 
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/cipher"
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/protocol"
+	protos "git.wemomo.com/cosmos_server/zombieparty-gamecli/protos"
 	pb "github.com/golang/protobuf/proto"
-	"wowo.com/game-server-cli/cipher"
-	"wowo.com/game-server-cli/protocol"
-	protos "wowo.com/game-server-cli/protos"
 )
 
 var (

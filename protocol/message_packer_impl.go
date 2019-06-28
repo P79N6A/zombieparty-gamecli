@@ -10,10 +10,10 @@ import (
 	"bytes"
 	"fmt"
 
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/cipher"
+	protos "git.wemomo.com/cosmos_server/zombieparty-gamecli/protos"
 	"github.com/chosen0ne/goutils"
 	pb "github.com/golang/protobuf/proto"
-	"wowo.com/game-server-cli/cipher"
-	protos "wowo.com/game-server-cli/protos"
 )
 
 const (

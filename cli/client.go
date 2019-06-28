@@ -11,10 +11,10 @@ import (
 	"fmt"
 	"net"
 
+	"git.wemomo.com/cosmos_server/zombieparty-gamecli/protocol"
 	logging "github.com/chosen0ne/gologging"
 	"github.com/chosen0ne/goutils"
 	"github.com/xtaci/kcp-go"
-	"wowo.com/game-server-cli/protocol"
 )
 
 var (
