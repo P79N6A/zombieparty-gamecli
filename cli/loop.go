@@ -56,7 +56,7 @@ func (l *Loop) SetCipher(c cipher.ICipher) {
 	l.c = c
 }
 
-func (l *Loop) Start() {
+func (l *Loop) Start(rid string) {
 	l.packer.SetCipher(l.c)
 
 	if err := l.cli.Connect(); err != nil {
@@ -81,11 +81,11 @@ func (l *Loop) Start() {
 	go l.inputLoop()
 
 	for _ = range time.Tick(time.Second) {
-		l.randomOp()
+		l.randomOp(rid)
 	}
 }
 
-func (l *Loop) randomOp() {
+func (l *Loop) randomOp(rid string) {
 	input := &protos.InputData{}
 	input.Type = rand.Int31() % 3
 	input.UserId = l.wowoid
@@ -97,7 +97,7 @@ func (l *Loop) randomOp() {
 	}
 
 	sync := &protos.SyncRequest{}
-	sync.RoundId = "1"
+	sync.RoundId = rid
 	sync.Data = append(sync.Data, input)
 
 	msgPacket, err := l.packer.PackCommand(sync, nil)
