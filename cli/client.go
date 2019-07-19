@@ -23,15 +23,16 @@ var (
 
 type Client struct {
 	net.Conn
-	host     string
-	port     int
-	in       *bufio.Reader
-	out      *bufio.Writer
-	protocol protocol.ImProtocol
+	transport string
+	host      string
+	port      int
+	in        *bufio.Reader
+	out       *bufio.Writer
+	protocol  protocol.ImProtocol
 }
 
-func NewClient(host string, port int) *Client {
-	return &Client{host: host, port: port}
+func NewClient(transport, host string, port int) *Client {
+	return &Client{transport: transport, host: host, port: port}
 }
 
 func (cli *Client) setProtocol(p protocol.ImProtocol) {
@@ -40,14 +41,19 @@ func (cli *Client) setProtocol(p protocol.ImProtocol) {
 
 func (cli *Client) Connect() (err error) {
 	hostport := fmt.Sprintf("%s:%d", cli.host, cli.port)
-	//cli.Conn, err = net.Dial("tcp", hostport)
-	cli.Conn, err = kcp.Dial(hostport)
+
+	if cli.transport == "tcp" {
+		cli.Conn, err = net.Dial("tcp", hostport)
+	} else if cli.transport == "kcp" {
+		cli.Conn, err = kcp.Dial(hostport)
+	}
+
 	if err != nil {
 		log.Exception(err, "failed connect to %s:%d", cli.host, cli.port)
 		return err
 	}
 
-	log.Info("connected to server %s:%d", cli.host, cli.port)
+	log.Info("connected to server %s:%d by %s", cli.host, cli.port, cli.transport)
 
 	cli.in = bufio.NewReader(cli.Conn)
 	cli.out = bufio.NewWriter(cli.Conn)

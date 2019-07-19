@@ -21,11 +21,18 @@ func main() {
 	port := flag.Int("port", 8080, "port to connect")
 	uid := flag.String("uid", "100", "user id")
 	rid := flag.String("rid", "100", "round id")
+	transport := flag.String("transport", "tcp", "transport protocol, tcp or kcp")
+
 	flag.Parse()
+
+	if *transport != "tcp" && *transport != "kcp" {
+		logging.Info("transport protocol isn't supported")
+		return
+	}
 
 	logging.Info("try to connect %s:%d", *host, *port)
 
-	loop := cli.NewLoop(*host, *port)
+	loop := cli.NewLoop(*transport, *host, *port)
 	loop.SetId(*uid)
 	loop.SetRoundId(*rid)
 	loop.AddProtocol(&protocol.ImProtocolImpl{}, &protocol.MessagePackerImpl{})

@@ -121,5 +121,9 @@ func readFixedLen(r *bufio.Reader, b []byte) error {
 }
 
 func init() {
+	if err := logging.Load("logger.conf"); err != nil {
+		logging.Exception(err, "failed load logger conf")
+	}
+
 	log = logging.GetLogger("protocol")
 }

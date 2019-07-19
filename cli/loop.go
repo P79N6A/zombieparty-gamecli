@@ -33,8 +33,8 @@ type Loop struct {
 	roundId string
 }
 
-func NewLoop(host string, port int) *Loop {
-	cli := NewClient(host, port)
+func NewLoop(transport, host string, port int) *Loop {
+	cli := NewClient(transport, host, port)
 	return &Loop{cli: cli, w: make(chan int, 1)}
 }
 
@@ -80,7 +80,7 @@ func (l *Loop) Start(rid string) {
 	// read input
 	go l.inputLoop()
 
-	for _ = range time.Tick(time.Second) {
+	for _ = range time.Tick(time.Millisecond * 30) {
 		l.randomOp(rid)
 	}
 }
@@ -143,7 +143,7 @@ func (l *Loop) inputLoop() {
 			log.Exception(err, "failed to read next message")
 			//l.w <- 1
 		} else {
-			log.Info(" >> recv PACKET@{V=%d;H=%d;B=%d}", packet.Version,
+			log.Trace(" >> recv PACKET@{V=%d;H=%d;B=%d}", packet.Version,
 				len(packet.Header), len(packet.Body))
 
 			if packet.IsPong() {
@@ -188,7 +188,7 @@ func (l *Loop) recvSync(packet *protocol.MessagePacket) {
 		return
 	}
 
-	log.Info("recv frame, frame: %s", frame)
+	log.Info("recv frame, frame: %s, ts: %d", frame, time.Now().UnixNano()/1000000)
 }
 
 func (l *Loop) recvPull(packet *protocol.MessagePacket) {
